@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- 🔥 CLAVE PARA iPhone / Safari -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- Permite modo app (sin barras si lo abres desde pantalla de inicio) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Tarjeta 3D</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 🔥 IMPORTANTE para eliminar bordes en iOS */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: #111;
+    }
+
+    body {
+      min-height: 100dvh; /* mejor que vh en iPhone */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+
+      /* evita efectos raros en Safari */
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .scene {
+      perspective: 1400px;
+    }
+
+    .card {
+      width: 320px;
+      height: 500px;
+      position: relative;
+      cursor: pointer;
+      transform-style: preserve-3d;
+    }
+
+    .inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transform: rotateY(0deg) rotateX(0deg);
+      will-change: transform;
+    }
+
+    .card.flipped .inner {
+      transform: rotateY(180deg) rotateX(0deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      background: #222;
+    }
+
+    .face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+    }
+
+    .card:active {
+      transform: scale(0.995);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scene">
+    <div class="card" id="card">
+      <div class="inner">
+        <div class="face front">
+          <img src="frontal.jpeg" alt="Frontal" />
+        </div>
+        <div class="face back">
+          <img src="trasera.jpeg" alt="Trasera" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById("card");
+
+    card.addEventListener("click", () => {
+      card.classList.toggle("flipped");
+    });
+  </script>
+
+</body>
+</html>
